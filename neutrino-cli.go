@@ -1,17 +1,17 @@
 package main
 
 import (
-	"github.com/nsf/termbox-go"
 	"github.com/morras/go-neutrino"
+	"github.com/nsf/termbox-go"
 )
 
 func main() {
 
-	game := neutrino.NewGame()
+	game := neutrino.NewStandardGame()
 	moveChannel, stateChannel := neutrino.StartGame(game)
 	defer neutrino.EndGame()
 
-	board := NewBoard(moveChannel, stateChannel)
+	board := NewBoard(moveChannel, stateChannel)//Should be able to take a game perhaps
 	defer board.CloseBoard()
 
 	termbox.PollEvent()

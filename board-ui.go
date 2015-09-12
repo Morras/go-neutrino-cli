@@ -2,25 +2,25 @@ package main
 
 import (
 	"fmt"
+	"github.com/morras/go-neutrino"
 	"github.com/nsf/termbox-go"
 	"strconv"
-	"github.com/morras/go-neutrino"
 )
 
 type Board struct {
-	moveChannel <-chan neutrino.Move
+	moveChannel  <-chan neutrino.Move
 	stateChannel <-chan neutrino.State
 }
 
-func (self *Board) listenForMoves(){
+func (self *Board) listenForMoves() {
 	for move := range self.moveChannel {
 		self.move(move)
 	}
 }
 
-func (self *Board) listenForStateChanges(){
+func (self *Board) listenForStateChanges() {
 	for state := range self.stateChannel {
-		switch state{
+		switch state {
 		case neutrino.Player1NeutrinoMove:
 			writeMessage("Player ones turn to move neutrino")
 			break
@@ -46,8 +46,9 @@ func (self *Board) listenForStateChanges(){
 }
 
 var lastMessageLength = 0
-func writeMessage(message string){
-	for i := 0; i < lastMessageLength; i++{
+
+func writeMessage(message string) {
+	for i := 0; i < lastMessageLength; i++ {
 		termbox.SetCell(1+i, 8, ' ', 0, 0)
 	}
 	for i, r := range message {
@@ -58,17 +59,17 @@ func writeMessage(message string){
 }
 
 const (
-	player1Square = termbox.ColorYellow
-	player2Square = termbox.ColorGreen
-	blankSquare = ' '
+	player1Square  = termbox.ColorYellow
+	player2Square  = termbox.ColorGreen
+	blankSquare    = ' '
 	neutrinoSquare = termbox.ColorWhite
-	bg = termbox.ColorBlack
-	fg = termbox.ColorWhite
+	bg             = termbox.ColorBlack
+	fg             = termbox.ColorWhite
 )
 
 func NewBoard(moveCh <-chan neutrino.Move, stateCh <-chan neutrino.State) *Board {
 	board := &Board{
-		moveChannel: moveCh,
+		moveChannel:  moveCh,
 		stateChannel: stateCh,
 	}
 	board.initializeBoard()
